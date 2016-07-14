@@ -1,0 +1,26 @@
+{
+  "name": "react-ddp",
+  "version": "1.0.11",
+  "description": "ddp client with subs, methods, minimongo supported without much work (see readme), will not make minimongo a dep.",
+  "main": "./dst/ddp.js",
+  "scripts": {
+    "compile-src": "babel src --presets babel-preset-es2015 --plugins transform-object-rest-spread --out-dir dst",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ejson": "^2.1.2",
+    "hash.js": "^1.0.3",
+    "react": "^15.1.0",
+    "react-native": "^0.28.0",
+    "reactive-var": "^1.0.7",
+    "trackr": "^2.0.2",
+    "wolfy87-eventemitter": "^4.3.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.10.1",
+    "babel-plugin-transform-object-rest-spread": "^6.8.0",
+    "babel-preset-es2015": "^6.9.0"
+  }
+}
