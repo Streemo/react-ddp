@@ -288,8 +288,6 @@ var DDP = function (_RawDDP) {
       }
       if (d) {
         d.password && (d.password = this._encrypt(d.password));
-        d.oldPassword && (d.oldPassword = this._encrypt(d.oldPassword));
-        d.newPassword && (d.newPassword = this._encrypt(d.newPassword));
       }
       var mId = this.method(opts.name, d ? [d] : []);
       if (!cb) {
@@ -353,6 +351,47 @@ var DDP = function (_RawDDP) {
         params.data = { resume: auth.token };
         _this8._callLogin(params, end);
       });
+    }
+  }, {
+    key: "changePassword",
+    value: function changePassword(opts, cb) {
+      var _this9 = this;
+
+      /*
+        opts = {
+          check: validationFunc,
+          data: {
+            oldPassword: ...,
+            newPassword: ...
+          }
+        }
+      */
+      var d = opts.data;
+      try {
+        if (!d) {
+          throw new Error('no-params');
+        } else if (!d.oldPassword) {
+          throw new Error('no-old-password');
+        } else if (!d.newPassword) {
+          throw new Error('no-new-password');
+        }
+        opts.check && opts.check(d, this.userId());
+      } catch (err) {
+        return cb && cb(err);
+      }
+      d.oldPassword = this._encrypt(d.oldPassword);
+      d.newPassword = this._encrypt(d.newPassword);
+      var mId = this.method("changePassword", [d.oldPassword, d.newPassword]);
+      if (!cb) {
+        return;
+      };
+      var listener = function listener(res) {
+        if (res.id === mId) {
+          res.error ? cb && cb(res.error) : cb && cb(null, res.result);
+          _this9.removeListener('result', listener);
+        }
+      };
+      this.on('result', listener);
     }
   }]);
 
