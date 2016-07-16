@@ -298,7 +298,7 @@ export default class DDP extends RawDDP {
     if (!cb){return;};
     let listener = (res) => {
       if (res.id === mId){
-        res.error ? cb && cb(res.error) : cb && cb(null,res.result)
+        res.error ? cb && cb(new Error('fail-change-password')) : cb && cb(null,res.result)
         this.removeListener('result',listener)
       }
     }

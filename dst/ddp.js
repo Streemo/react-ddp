@@ -387,7 +387,7 @@ var DDP = function (_RawDDP) {
       };
       var listener = function listener(res) {
         if (res.id === mId) {
-          res.error ? cb && cb(res.error) : cb && cb(null, res.result);
+          res.error ? cb && cb(new Error('fail-change-password')) : cb && cb(null, res.result);
           _this9.removeListener('result', listener);
         }
       };
