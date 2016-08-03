@@ -259,11 +259,6 @@ export default class DDP extends RawDDP {
       check: opts.check || null,
       data: opts.data || null
     };
-    let d = params.data;
-    if (d){
-      d.password = this._encrypt(d.password);
-      return this._callLogin(params, end);
-    }
     this._getAuth((err, auth)=>{
       if (err){
         return end(err);
