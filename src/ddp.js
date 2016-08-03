@@ -9,8 +9,9 @@ import { contains } from "./raw/utils.js";
 export default class DDP extends RawDDP {
   constructor(opts){
     super(opts);
-    this._userKey = opts.appId + "_UserId";
-    this._tokenKey = opts.appId + "_LoginToken";
+    const appId = opts.appId || "app";
+    this._userKey = appId + "_UserId";
+    this._tokenKey = appId + "_LoginToken";
     this._subsCache = {};
     this._status = new ReactiveVar('connecting');
     this._userId = new ReactiveVar(null);
@@ -141,7 +142,7 @@ export default class DDP extends RawDDP {
       if (!opts.name){
         cb && cb(new Error('sub-name'));
       }
-      opts.check && opts.check(opts.data, this.userId());
+      opts.check && opts.check(opts.data, this._userId.v);
     } catch (err){
       return cb && cb(err);
     }
@@ -204,12 +205,12 @@ export default class DDP extends RawDDP {
         data: payload (params)
       }
     */
-    let d = opts.data;
+    let d = clone(opts.data);
     try {
       if (!opts.name){
         cb && cb(new Error('method-name'));
       }
-      opts.check && opts.check(d, this.userId());
+      opts.check && opts.check(d, this._userId.v);
     } catch (err){
       return cb && cb(err);
     }
@@ -258,7 +259,9 @@ export default class DDP extends RawDDP {
       check: opts.check || null,
       data: opts.data || null
     };
-    if (params.data){
+    let d = params.data;
+    if (d){
+      d.password = this._encrypt(d.password);
       return this._callLogin(params, end);
     }
     this._getAuth((err, auth)=>{
@@ -279,7 +282,7 @@ export default class DDP extends RawDDP {
         }
       }
     */
-    let d = opts.data;
+    let d = clone(opts.data);
     try {
       if (!d){
         throw new Error('no-params')
@@ -288,7 +291,7 @@ export default class DDP extends RawDDP {
       } else if (!d.newPassword){
         throw new Error('no-new-password')
       }
-      opts.check && opts.check(d, this.userId());
+      opts.check && opts.check(d, this._userId.v);
     } catch (err){
       return cb && cb(err);
     }

@@ -41,8 +41,9 @@ var DDP = function (_RawDDP) {
 
     var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(DDP).call(this, opts));
 
-    _this._userKey = opts.appId + "_UserId";
-    _this._tokenKey = opts.appId + "_LoginToken";
+    var appId = opts.appId || "app";
+    _this._userKey = appId + "_UserId";
+    _this._tokenKey = appId + "_LoginToken";
     _this._subsCache = {};
     _this._status = new _reactiveVar2.default('connecting');
     _this._userId = new _reactiveVar2.default(null);
@@ -205,7 +206,7 @@ var DDP = function (_RawDDP) {
         if (!opts.name) {
           cb && cb(new Error('sub-name'));
         }
-        opts.check && opts.check(opts.data, this.userId());
+        opts.check && opts.check(opts.data, this._userId.v);
       } catch (err) {
         return cb && cb(err);
       }
@@ -277,12 +278,12 @@ var DDP = function (_RawDDP) {
           data: payload (params)
         }
       */
-      var d = opts.data;
+      var d = (0, _ejson.clone)(opts.data);
       try {
         if (!opts.name) {
           cb && cb(new Error('method-name'));
         }
-        opts.check && opts.check(d, this.userId());
+        opts.check && opts.check(d, this._userId.v);
       } catch (err) {
         return cb && cb(err);
       }
@@ -341,7 +342,9 @@ var DDP = function (_RawDDP) {
         check: opts.check || null,
         data: opts.data || null
       };
-      if (params.data) {
+      var d = params.data;
+      if (d) {
+        d.password = this._encrypt(d.password);
         return this._callLogin(params, end);
       }
       this._getAuth(function (err, auth) {
@@ -366,7 +369,7 @@ var DDP = function (_RawDDP) {
           }
         }
       */
-      var d = opts.data;
+      var d = (0, _ejson.clone)(opts.data);
       try {
         if (!d) {
           throw new Error('no-params');
@@ -375,7 +378,7 @@ var DDP = function (_RawDDP) {
         } else if (!d.newPassword) {
           throw new Error('no-new-password');
         }
-        opts.check && opts.check(d, this.userId());
+        opts.check && opts.check(d, this._userId.v);
       } catch (err) {
         return cb && cb(err);
       }
