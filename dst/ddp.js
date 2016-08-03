@@ -342,6 +342,9 @@ var DDP = function (_RawDDP) {
         check: opts.check || null,
         data: opts.data || null
       };
+      if (params.data) {
+        return this._callLogin(params, end);
+      }
       this._getAuth(function (err, auth) {
         if (err) {
           return end(err);
