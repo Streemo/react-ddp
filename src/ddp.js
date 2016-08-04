@@ -148,7 +148,7 @@ export default class DDP extends RawDDP {
     }
     let existingExactSub = this._findExactSub(opts);
     if (existingExactSub){
-      return cb && cb(null, {id: existingSub.id});
+      return cb && cb(null, {id: existingExactSub.id});
     }
     let sId = this.sub(opts.name, opts.data ? [opts.data] : []);
     let existingSimilarSubs = this._findSubsWithName(opts.name);

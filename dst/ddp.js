@@ -212,7 +212,7 @@ var DDP = function (_RawDDP) {
       }
       var existingExactSub = this._findExactSub(opts);
       if (existingExactSub) {
-        return cb && cb(null, { id: existingSub.id });
+        return cb && cb(null, { id: existingExactSub.id });
       }
       var sId = this.sub(opts.name, opts.data ? [opts.data] : []);
       var existingSimilarSubs = this._findSubsWithName(opts.name);
