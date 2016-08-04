@@ -20,7 +20,7 @@ export default class DDP extends RawDDP {
       this._status.set('connected')
     })
     this.on('disconnected', ()=>{
-      this.autoReconnect && this.login({});
+      this._userId.set(null);
       this._status.set(this.autoReconnect ? 'reconnecting' : "disconnected");
     })
   }

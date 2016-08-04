@@ -52,7 +52,7 @@ var DDP = function (_RawDDP) {
       _this._status.set('connected');
     });
     _this.on('disconnected', function () {
-      _this.autoReconnect && _this.login({});
+      _this._userId.set(null);
       _this._status.set(_this.autoReconnect ? 'reconnecting' : "disconnected");
     });
     return _this;
