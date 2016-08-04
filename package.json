@@ -1,6 +1,6 @@
 {
   "name": "react-ddp",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "description": "ddp client with subs, methods, minimongo supported without much work (see readme), will not make minimongo a dep.",
   "main": "./dst/ddp.js",
   "scripts": {

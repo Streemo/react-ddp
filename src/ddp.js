@@ -76,7 +76,7 @@ export default class DDP extends RawDDP {
     this._subsCache[id] = {
       id: id,
       name: opts.name,
-      data: clone(opts.data),
+      data: clone(opts.data || null),
       cached: opts.cache || false,
       stop: () => {
         this.unsub(id);
@@ -96,7 +96,7 @@ export default class DDP extends RawDDP {
       for (let id in subs){
         let s = subs[id];
         if (s.name === opts.name){
-          if (equals(opts.data || [],s.data)){
+          if (equals(opts.data || null,s.data)){
             sub = s;
             break;
           }

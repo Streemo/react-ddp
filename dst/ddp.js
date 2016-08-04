@@ -126,7 +126,7 @@ var DDP = function (_RawDDP) {
       this._subsCache[id] = {
         id: id,
         name: opts.name,
-        data: (0, _ejson.clone)(opts.data),
+        data: (0, _ejson.clone)(opts.data || null),
         cached: opts.cache || false,
         stop: function stop() {
           _this3.unsub(id);
@@ -148,7 +148,7 @@ var DDP = function (_RawDDP) {
         for (var id in subs) {
           var s = subs[id];
           if (s.name === opts.name) {
-            if ((0, _ejson.equals)(opts.data || [], s.data)) {
+            if ((0, _ejson.equals)(opts.data || null, s.data)) {
               sub = s;
               break;
             }
