@@ -21,6 +21,10 @@ export default class DDP extends RawDDP {
     })
     this.on('disconnected', ()=>{
       this._userId.set(null);
+      const subs = this._subsCache;
+      for (let sub in subs){
+        subs[sub].stop();
+      }
       this._status.set(this.autoReconnect ? 'reconnecting' : "disconnected");
     })
   }

@@ -53,6 +53,10 @@ var DDP = function (_RawDDP) {
     });
     _this.on('disconnected', function () {
       _this._userId.set(null);
+      var subs = _this._subsCache;
+      for (var sub in subs) {
+        subs[sub].stop();
+      }
       _this._status.set(_this.autoReconnect ? 'reconnecting' : "disconnected");
     });
     return _this;
