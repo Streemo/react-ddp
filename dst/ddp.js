@@ -55,7 +55,7 @@ var DDP = function (_RawDDP) {
       _this._userId.set(null);
       var subs = _this._subsCache;
       for (var sub in subs) {
-        subs[sub].resub();
+        subs[sub].stop();
       }
       _this._status.set(_this.autoReconnect ? 'reconnecting' : "disconnected");
     });
@@ -135,11 +135,6 @@ var DDP = function (_RawDDP) {
         stop: function stop() {
           _this3.unsub(id);
           delete _this3._subsCache[id];
-        },
-        resub: function resub() {
-          _this3.unsub(id);
-          delete _this3._subsCache[id];
-          _this3.subscribe(opts);
         }
       };
     }
