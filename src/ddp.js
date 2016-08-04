@@ -23,7 +23,7 @@ export default class DDP extends RawDDP {
       this._userId.set(null);
       const subs = this._subsCache;
       for (let sub in subs){
-        subs[sub].stop();
+        subs[sub].resub();
       }
       this._status.set(this.autoReconnect ? 'reconnecting' : "disconnected");
     })
@@ -85,6 +85,11 @@ export default class DDP extends RawDDP {
       stop: () => {
         this.unsub(id);
         delete this._subsCache[id];
+      },
+      resub: () => {
+        this.unsub(id);
+        delete this._subsCache[id];
+        this.subscribe(opts);
       }
     }
   }
